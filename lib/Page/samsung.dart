@@ -3,20 +3,20 @@ import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 import 'package:mobithice/Widget/appbar.dart';
 import 'package:mobithice/Widget/drawer.dart';
+Future getdata() async{
+  var url="https://tpowep.com/mob/api.php";
+  var respomose=await http.get(url);
+  var respomosebody=convert.jsonDecode(respomose.body);
+  return respomosebody;
+
+
+}
+
 class ProductsL extends StatefulWidget {
   @override
   _ProductsLState createState() => _ProductsLState();
 }
-
 class _ProductsLState extends State<ProductsL> {
-  Future getdata() async{
-    var url="https://tpowep.com/mob/api.php";
-    var respomose=await http.get(url);
-    var respomosebody=convert.jsonDecode(respomose.body);
-    return respomosebody;
-
-
-  }
   @override
   Widget build(BuildContext context) {
     return Directionality(      textDirection: TextDirection.rtl,

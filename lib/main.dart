@@ -5,9 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:mobithice/Page/Catogery.dart';
 import 'package:mobithice/Page/Details.dart';
 import 'package:mobithice/Page/HomeScreen.dart';
+import 'package:mobithice/Page/shered.dart';
 import 'package:mobithice/Page/test.dart';
 import 'package:mobithice/Page/tras.dart';
 import 'package:mobithice/Widget/prolist.dart';
+import 'package:mobithice/Widget/serash.dart';
 
 import 'Page/samsung.dart';
 
@@ -24,7 +26,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'HiTic',
-      home: HomeScreen()
+      home: shared()
 
     );
   }
