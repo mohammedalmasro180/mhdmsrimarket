@@ -4,14 +4,29 @@ import 'package:mobithice/Widget/appbar.dart';
 import 'package:mobithice/Widget/drawer.dart';
 import 'package:mobithice/Widget/homecat.dart';
 import 'package:mobithice/Widget/prohome.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 class HomeScreen extends StatefulWidget {
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  getperf()async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+
+      var country = sharedPreferences.getString("key");
+      print(country);
+
+  }
   @override
+  void initState() {
+  getperf();
+    super.initState();
+  }
+
+    @override
   Widget build(BuildContext context) {
+
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(

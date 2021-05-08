@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:mobithice/Page/Catogery.dart';
 import 'package:mobithice/Page/Details.dart';
 import 'package:mobithice/Page/HomeScreen.dart';
+import 'package:mobithice/Page/Login.dart';
+import 'package:mobithice/Page/loginpage.dart';
 import 'package:mobithice/Page/shered.dart';
 import 'package:mobithice/Page/test.dart';
 import 'package:mobithice/Page/tras.dart';
@@ -26,7 +28,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'HiTic',
-      home: shared()
+      home: loginui()
 
     );
   }

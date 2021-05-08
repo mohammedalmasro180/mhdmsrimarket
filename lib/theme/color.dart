@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-const primary = Colors.cyan;
-const rowone = Colors.lightBlue;
-const rowto = Colors.lightBlue;
-const sh = Colors.lightBlueAccent;
-const coltes = Colors.lightBlue;
+const primary = Colors.deepOrange;
+const rowone = Colors.amberAccent;
+const rowto = Colors.amber;
+const sh = Colors.deepOrange;
+const coltes = Colors.lime;
 
