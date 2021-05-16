@@ -8,6 +8,7 @@ class singup extends StatefulWidget {
   _singupState createState() => _singupState();
 }
 
+GlobalKey<FormState> formstate=new GlobalKey();
 class _singupState extends State<singup> {
   @override
 
@@ -16,51 +17,8 @@ class _singupState extends State<singup> {
     TextEditingController username;
     TextEditingController password;
     TextEditingController name;
-    GlobalKey<FormState> formstate=new GlobalKey();
+
     TextEditingController confirem;
-    String validGlobal(String val){
-      if (val.isEmpty)
-        return "الرجاء ادخال الحقل";
-
-    }
-
-    String validuser(String val){
-      if (val.isEmpty)
-        return "الرجاء ادخال الحقل";
-
-      if (val.trim().length>5)
-        return "اسم المستخدم اطول من 5 احرف";
-
-    }
-    String validpass(String val){
-      if (val.isEmpty)
-        return "الرجاء ادخال الحقل";
-
-      if (val.trim().length>5)
-        return "كلمة المرور اطول من 5 احرف";
-
-    }
-
-    String confirempass(String val){
-      if (val.isEmpty)
-        return "الرجاء ادخال الحقل";
-
-      if (val.trim().length>5)
-        return "كلمة المرور اطول من 5 احرف";
-
-    }
-
-
-    signup(){
-      var fromdata=formstate.currentState;
-      if(fromdata.validate()){
-        print("ok");
-
-      }
-      else
-        print("no");
-
-    }
     bool selected = false;
     var mdw=MediaQuery.of(context).size.width;
     var mhw=MediaQuery.of(context).size.height;
@@ -88,6 +46,7 @@ class _singupState extends State<singup> {
                     width: double.infinity,
 
                   ),
+
                   Positioned(child: Transform.scale(
                     scale: 1.3,
                     child: Transform.translate(
@@ -184,7 +143,7 @@ class _singupState extends State<singup> {
                                         children: [
                                           Padding(
                                             padding: const EdgeInsets.all(8.0),
-                                            child: bulidtextfield("الاسم",  name,validGlobal)
+                                            child: bulidtextfield("الاسم",  name,validuser)
                                           ),
                                           Padding(
                                             padding: const EdgeInsets.all(8.0),
@@ -193,6 +152,7 @@ class _singupState extends State<singup> {
                                           Padding(
                                             padding: const EdgeInsets.all(8.0),
                                             child: TextFormField(
+                                              validator: validpass,
                                               controller: password,
                                               obscureText: true,
                                               keyboardType: TextInputType.number,
@@ -210,7 +170,7 @@ class _singupState extends State<singup> {
                                             ),                                          ),
                                           Padding(
                                             padding: const EdgeInsets.all(8.0),
-                                            child: bulidtextfield("الهاتف",phone,validGlobal)
+                                            child: bulidtextfield("الهاتف",phone,validuser)
                                           ),
 
 
@@ -279,7 +239,9 @@ class _singupState extends State<singup> {
                                     (
 
                                     padding: EdgeInsets.symmetric(vertical: 10,horizontal: 40),
-                                    onPressed:signup,
+                                    onPressed:(){
+                                      signup();
+                                    },
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.center,
                                       mainAxisSize: MainAxisSize.min,
@@ -313,7 +275,7 @@ class _singupState extends State<singup> {
 TextFormField bulidtextfield(String hint,TextEditingController Controller,myvalid)
 {
   return TextFormField(
-    autovalidate: true,
+
     validator: myvalid,
     controller: Controller,
     decoration: InputDecoration(labelText: hint,filled: true,fillColor: Colors.white,icon: Icon(Icons.perm_contact_cal,size: 25,color:sh,),border: OutlineInputBorder(
@@ -321,3 +283,50 @@ TextFormField bulidtextfield(String hint,TextEditingController Controller,myvali
     )),
   );
 }
+
+String validuser(String val){
+  if (val.isEmpty)
+    return "الرجاء ادخال الحقل";
+
+  if (val.trim().length<5)
+    return "اسم المستخدم اطول من 5 احرف";
+
+
+  String p = r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+
+  RegExp regExp = new RegExp(p);
+
+
+}
+String validpass(String val){
+  if (val.isEmpty)
+    return "الرجاء ادخال الحقل";
+
+  if (val.trim().length<5)
+    return "كلمة المرور اطول من 5 احرف";
+
+}
+
+String confirempass(String val){
+  if (val.isEmpty)
+    return "الرجاء ادخال الحقل";
+
+  if (val.trim().length<5)
+    return "كلمة المرور اطول من 5 احرف";
+
+
+
+  }
+
+
+signup(){
+  var fromdata=formstate.currentState;
+  if(fromdata.validate()){
+    print("ok");
+
+  }
+  else
+    print("no");
+
+
+  }

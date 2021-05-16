@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+
 import 'package:mobithice/Page/Catogery.dart';
 import 'package:mobithice/Page/signup.dart';
 import 'package:mobithice/Widget/appbar.dart';
@@ -7,12 +10,64 @@ class loginui extends StatefulWidget {
   @override
   _loginuiState createState() => _loginuiState();
 }
-
+GlobalKey<FormState> formstate=new GlobalKey();
 class _loginuiState extends State<loginui> {
   bool selected = false;
+  TextEditingController phone = new TextEditingController ();
+  TextEditingController username = new TextEditingController ();
+  TextEditingController password = new TextEditingController ();
+  TextEditingController name;
+
+  String validuser(String val) {
+    if (val.isEmpty)
+      return "الرجاء ادخال الحقل";
+
+    if (val
+        .trim()
+        .length < 5)
+      return "اسم المستخدم اطول من 5 احرف";
+  }
+
+  String validpass(String val) {
+    if (val.isEmpty)
+      return "الرجاء ادخال الحقل";
+
+    if (val
+        .trim()
+        .length < 5)
+      return "كلمة المرور اطول من 5 احرف";
+  }
+
+  String confirempass(String val) {
+    if (val.isEmpty)
+      return "الرجاء ادخال الحقل";
+
+    if (val
+        .trim()
+        .length < 5)
+      return "كلمة المرور اطول من 5 احرف";
+  }
+
+
+  signup() async {
+    var fromdata = formstate.currentState;
+    if (fromdata.validate()) {
+      fromdata.save();
+      var data = {"username": username.text, "password": password.text};
+      var url = "https://tpowep.com/mob/logincode.php";
+      var reesponse = await http.post(url, body: data);
+      var responsebody = jsonDecode(reesponse.body);
+      print(reesponse.body);
+    }
+    else
+      print("no");
+  }
+
+
   @override
   Widget build(BuildContext context) {
     var mdw=MediaQuery.of(context).size.width;
+
     return        AnimatedContainer(
       width: selected ? 200.0 : 100.0,
       height: selected ? 100.0 : 200.0,
@@ -25,7 +80,7 @@ class _loginuiState extends State<loginui> {
       child: Scaffold(
         appBar: myappbar(context),
         body:  Directionality(      textDirection: TextDirection.rtl,
-          child: AnimatedContainer(
+         child: AnimatedContainer(
             duration: Duration(milliseconds: 600),
             child: Stack(
               children: [
@@ -97,6 +152,7 @@ class _loginuiState extends State<loginui> {
                               )
                             ]
 
+
                         ),
                         child:Stack(
 
@@ -115,19 +171,24 @@ class _loginuiState extends State<loginui> {
                             child: AnimatedContainer(
                               duration: Duration(milliseconds: 600),
                               padding: EdgeInsets.all(30),
-                              height: 250,
+                              height: 350,
                               width: mdw/1.2,
 
                               child:Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Center(
-                                  child: Form(child: Center(
+                                  child: Form(
+                                      key: formstate,
+                                      child: Center(
                                     child: Column(
 
                                       children: [
                                         Padding(
                                           padding: const EdgeInsets.all(8.0),
                                           child: TextFormField(
+                             //               autovalidate: true,
+                                            controller: username,
+                                            validator: validuser,
                                             decoration: InputDecoration(labelText: "الاسم",filled: true,fillColor: Colors.white,icon: Icon(Icons.perm_contact_cal,size: 25,color:sh,),border: OutlineInputBorder(
                                                 borderRadius: BorderRadius.circular(20)
                                             )),
@@ -136,11 +197,14 @@ class _loginuiState extends State<loginui> {
                                         Padding(
                                           padding: const EdgeInsets.all(8.0),
                                           child: TextFormField(
+                                       controller: password,
+                      //                      validator: validpass,
                                             obscureText: true,
                                             keyboardType: TextInputType.number,
                                             decoration: InputDecoration(
                                                 labelText: "كلمة المرور",
                                                 filled: true,
+
 
                                                 fillColor: Colors.white,
 
@@ -189,7 +253,8 @@ class _loginuiState extends State<loginui> {
                                 margin: EdgeInsets.only(top: 20),
                                 child:RaisedButton(
                                     padding: EdgeInsets.symmetric(vertical: 10,horizontal: 40),
-                                    onPressed: null,
+                                    onPressed:        signup,
+
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     mainAxisSize: MainAxisSize.min,
@@ -247,4 +312,16 @@ class _loginuiState extends State<loginui> {
       ),
     );
   }
+}
+
+TextFormField bulidtextfield(String hint,TextEditingController Controller,myvalid)
+{
+  return TextFormField(
+
+    validator: myvalid,
+    controller: Controller,
+    decoration: InputDecoration(labelText: hint,filled: true,fillColor: Colors.white,icon: Icon(Icons.perm_contact_cal,size: 25,color:sh,),border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(20)
+    )),
+  );
 }
