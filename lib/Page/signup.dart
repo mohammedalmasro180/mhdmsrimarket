@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:mobithice/Page/HomeScreen.dart';
 import 'package:mobithice/Page/Login.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 import 'package:mobithice/Page/loginpage.dart';
 import 'package:mobithice/Widget/appbar.dart';
 import 'package:mobithice/theme/color.dart';
@@ -7,18 +10,25 @@ class singup extends StatefulWidget {
   @override
   _singupState createState() => _singupState();
 }
+TextEditingController phone=new TextEditingController();
+TextEditingController username=new TextEditingController();
+TextEditingController password=new TextEditingController();
+TextEditingController name=new TextEditingController();
+
 
 GlobalKey<FormState> formstate=new GlobalKey();
 class _singupState extends State<singup> {
+
   @override
 
-  Widget build(BuildContext context) {
-    TextEditingController phone;
-    TextEditingController username;
-    TextEditingController password;
-    TextEditingController name;
 
-    TextEditingController confirem;
+  Widget build(BuildContext context) {
+    phone.text="853214";
+    username.text="tpowep@tpowep.com";
+    password.text="76332";
+    name.text="mohammed";
+
+
     bool selected = false;
     var mdw=MediaQuery.of(context).size.width;
     var mhw=MediaQuery.of(context).size.height;
@@ -40,7 +50,7 @@ class _singupState extends State<singup> {
              Directionality(      textDirection: TextDirection.rtl,
 
               child: Stack(
-                children: [
+               children: [
                   Container(
                     height: double.infinity,
                     width: double.infinity,
@@ -241,7 +251,11 @@ class _singupState extends State<singup> {
                                     padding: EdgeInsets.symmetric(vertical: 10,horizontal: 40),
                                     onPressed:(){
                                       signup();
-                                    },
+
+                                      Navigator.pushReplacement(
+                                          context, MaterialPageRoute(builder: (context) => HomeScreen()));
+
+                                       },
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.center,
                                       mainAxisSize: MainAxisSize.min,
@@ -317,16 +331,18 @@ String confirempass(String val){
 
 
   }
-
-
-signup(){
-  var fromdata=formstate.currentState;
-  if(fromdata.validate()){
-    print("ok");
-
+signup() async {
+  var fromdata = formstate.currentState;
+  if (fromdata.validate()) {
+    fromdata.save();
+    var data = {
+      "username": username.text,
+      "password": password.text,
+      "name": name.text,
+      "phone": phone.text
+    };
+    var url = "https://tpowep.com/mob/signup.php";
+    var reesponse = await http.post(url, body: data);
+    var responsebody = jsonDecode(reesponse.body);
   }
-  else
-    print("no");
-
-
-  }
+}

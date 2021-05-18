@@ -1,14 +1,45 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 import 'package:mobithice/Page/Catogery.dart';
 import 'package:mobithice/theme/color.dart';
-class drawer extends StatelessWidget {
+class drawer extends StatefulWidget {
   @override
+  _drwaerState createState() => _drwaerState();
+
+}
+
+bool sign=false;
+class _drwaerState extends State<drawer> {
+  var username;
+  getperf() async{
+    SharedPreferences preferences=await SharedPreferences.getInstance();
+    username=   preferences.getString("username");
+      if(username!= null){
+        setState(() {
+          username=   preferences.getString("username");
+          sign=true;
+          print(username);
+        });
+      }
+
+
+  }
+  void initState() {
+
+    // TODO: implement initState
+    getperf();
+  }
+
+  @override
+
   Widget build(BuildContext context) {
+
     return Drawer(
       child: ListView(
         children: [
           UserAccountsDrawerHeader(
-            accountEmail: Text("tpowep@tpowep.com"),
+            accountEmail:Text(username),
             accountName: Text("tpowep"),
             currentAccountPicture: CircleAvatar(child: Icon(Icons.perm_contact_cal),),
             decoration: BoxDecoration(

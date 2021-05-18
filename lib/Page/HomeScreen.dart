@@ -13,8 +13,11 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   getperf()async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    setState(() {
+      sharedPreferences.getString("username");
+    });
 
-      var country = sharedPreferences.getString("key");
+    var country = sharedPreferences.getString("key");
       print(country);
 
   }

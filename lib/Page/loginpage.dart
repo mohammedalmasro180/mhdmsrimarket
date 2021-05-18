@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:mobithice/Page/Catogery.dart';
+import 'package:mobithice/Page/HomeScreen.dart';
 import 'package:mobithice/Page/signup.dart';
 import 'package:mobithice/Widget/appbar.dart';
 import 'package:mobithice/theme/color.dart';
@@ -17,7 +18,7 @@ class _loginuiState extends State<loginui> {
   TextEditingController username = new TextEditingController ();
   TextEditingController password = new TextEditingController ();
   TextEditingController name;
-
+  bool liading=false;
   String validuser(String val) {
     if (val.isEmpty)
       return "الرجاء ادخال الحقل";
@@ -49,23 +50,42 @@ class _loginuiState extends State<loginui> {
   }
 
 
+  var ed;
   signup() async {
     var fromdata = formstate.currentState;
     if (fromdata.validate()) {
       fromdata.save();
+      setState(() {
+        liading=true;
+      });
       var data = {"username": username.text, "password": password.text};
       var url = "https://tpowep.com/mob/logincode.php";
       var reesponse = await http.post(url, body: data);
       var responsebody = jsonDecode(reesponse.body);
+      ed=responsebody;
       print(reesponse.body);
+
     }
-    else
-      print("no");
+
+    else {
+      setState(() {
+        liading=false;
+      });
+      
+    }
   }
+
+
+
 
 
   @override
   Widget build(BuildContext context) {
+    setState(() {
+      saveperf(username.text);
+    });
+    password.text="pass212212";
+    username.text="user@tpowep.com";
     var mdw=MediaQuery.of(context).size.width;
 
     return        AnimatedContainer(
@@ -80,7 +100,7 @@ class _loginuiState extends State<loginui> {
       child: Scaffold(
         appBar: myappbar(context),
         body:  Directionality(      textDirection: TextDirection.rtl,
-         child: AnimatedContainer(
+          child: AnimatedContainer(
             duration: Duration(milliseconds: 600),
             child: Stack(
               children: [
@@ -109,22 +129,22 @@ class _loginuiState extends State<loginui> {
                   ),
                 )),
                 Positioned(
-                 top: 300,
+                  top: 300,
                   right: mdw/2,
                   child:
-                Container(
-                  //color: Colors.lime,
-                  height: mdw,
-                  width: mdw,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(mdw),
-                      color: sh.withOpacity(0.5)
+                  Container(
+                    //color: Colors.lime,
+                    height: mdw,
+                    width: mdw,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(mdw),
+                        color: sh.withOpacity(0.5)
 
 
 
 
+                    ),
                   ),
-                ),
                 ),
                 Container(
                   child: SingleChildScrollView(
@@ -137,34 +157,34 @@ class _loginuiState extends State<loginui> {
                             margin: EdgeInsets.only(top: 120),
                             child: Text("تسجيل الدخول",style: TextStyle(fontSize: 20,color: Colors.white),))
                         ),
-                      Padding(padding: EdgeInsets.only(top: 80),
-                      child: Container(
-                        height: 100,
-                        width: 100,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(100),
-                            color: Colors.amber,
-                            boxShadow: [
-                              BoxShadow(
-                                  color: Colors.black,
-                                  blurRadius: 4,
-                                  spreadRadius: 0.1
-                              )
-                            ]
+                        Padding(padding: EdgeInsets.only(top: 80),
+                          child: Container(
+                            height: 100,
+                            width: 100,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(100),
+                                color: Colors.amber,
+                                boxShadow: [
+                                  BoxShadow(
+                                      color: Colors.black,
+                                      blurRadius: 4,
+                                      spreadRadius: 0.1
+                                  )
+                                ]
 
 
-                        ),
-                        child:Stack(
+                            ),
+                            child:Stack(
 
-                          children: [
-                            Positioned(
-                              right: 25,
-                              top: 25,
-                              child:  Icon(Icons.person,size: 50,color: Colors.white,),)
-                          ],
-                        ),
+                              children: [
+                                Positioned(
+                                  right: 25,
+                                  top: 25,
+                                  child:  Icon(Icons.person,size: 50,color: Colors.white,),)
+                              ],
+                            ),
 
-                      ),),
+                          ),),
                         Padding(
                           padding: const EdgeInsets.all(55),
                           child: Center(
@@ -180,46 +200,46 @@ class _loginuiState extends State<loginui> {
                                   child: Form(
                                       key: formstate,
                                       child: Center(
-                                    child: Column(
+                                        child: Column(
 
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: TextFormField(
-                             //               autovalidate: true,
-                                            controller: username,
-                                            validator: validuser,
-                                            decoration: InputDecoration(labelText: "الاسم",filled: true,fillColor: Colors.white,icon: Icon(Icons.perm_contact_cal,size: 25,color:sh,),border: OutlineInputBorder(
-                                                borderRadius: BorderRadius.circular(20)
-                                            )),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: TextFormField(
-                                       controller: password,
-                      //                      validator: validpass,
-                                            obscureText: true,
-                                            keyboardType: TextInputType.number,
-                                            decoration: InputDecoration(
-                                                labelText: "كلمة المرور",
-                                                filled: true,
-
-
-                                                fillColor: Colors.white,
-
-
-                                                icon: Icon(Icons.perm_contact_cal,size: 25,color:sh,),
-                                                border: OutlineInputBorder(
+                                          children: [
+                                            Padding(
+                                              padding: const EdgeInsets.all(8.0),
+                                              child: TextFormField(
+                                                //               autovalidate: true,
+                                                controller: username,
+                                                validator: validuser,
+                                                decoration: InputDecoration(labelText: "الاسم",filled: true,fillColor: Colors.white,icon: Icon(Icons.perm_contact_cal,size: 25,color:sh,),border: OutlineInputBorder(
                                                     borderRadius: BorderRadius.circular(20)
                                                 )),
-                                          ),
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.all(8.0),
+                                              child: TextFormField(
+                                                controller: password,
+                                                //                      validator: validpass,
+                                                obscureText: true,
+                                                keyboardType: TextInputType.number,
+                                                decoration: InputDecoration(
+                                                    labelText: "كلمة المرور",
+                                                    filled: true,
+
+
+                                                    fillColor: Colors.white,
+
+
+                                                    icon: Icon(Icons.perm_contact_cal,size: 25,color:sh,),
+                                                    border: OutlineInputBorder(
+                                                        borderRadius: BorderRadius.circular(20)
+                                                    )),
+                                              ),
+                                            ),
+
+
+                                          ],
                                         ),
-
-
-                                      ],
-                                    ),
-                                  )),
+                                      )),
                                 ),
                               ),
                               decoration: BoxDecoration(
@@ -247,13 +267,19 @@ class _loginuiState extends State<loginui> {
                                 child: Text("هل نسيت كلمة المرور؟",style: TextStyle(fontSize: 20,color: sh),)
                             ),
                             Container(
-                              color: Colors.cyan,
+                                color: Colors.cyan,
 
 
                                 margin: EdgeInsets.only(top: 20),
                                 child:RaisedButton(
-                                    padding: EdgeInsets.symmetric(vertical: 10,horizontal: 40),
-                                    onPressed:        signup,
+                                  padding: EdgeInsets.symmetric(vertical: 10,horizontal: 40),
+                                  onPressed:() {
+                                    signup();
+
+                                    Navigator.pushReplacement(
+                                        context, MaterialPageRoute(
+                                        builder: (context) => HomeScreen()));
+                                  },
 
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
@@ -277,7 +303,7 @@ class _loginuiState extends State<loginui> {
                                   Container(
 
 
-                                      child: Text("  ليس لدي حساب انشاء",style: TextStyle(fontSize: 20,color: sh)),
+                                    child: Text("  ليس لدي حساب انشاء",style: TextStyle(fontSize: 20,color: sh)),
 
                                   ),
                                   InkWell(
@@ -324,4 +350,10 @@ TextFormField bulidtextfield(String hint,TextEditingController Controller,myvali
         borderRadius: BorderRadius.circular(20)
     )),
   );
+}
+saveperf(String username)async  {
+  SharedPreferences sharedPreferences=await SharedPreferences.getInstance();
+  sharedPreferences.setString("username", username);
+  print(sharedPreferences.get("username"));
+
 }
