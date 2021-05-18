@@ -267,11 +267,12 @@ class _loginuiState extends State<loginui> {
                                 child: Text("هل نسيت كلمة المرور؟",style: TextStyle(fontSize: 20,color: sh),)
                             ),
                             Container(
-                                color: Colors.cyan,
+
 
 
                                 margin: EdgeInsets.only(top: 20),
                                 child:RaisedButton(
+                                  color: rowto,
                                   padding: EdgeInsets.symmetric(vertical: 10,horizontal: 40),
                                   onPressed:() {
                                     signup();
@@ -320,7 +321,54 @@ class _loginuiState extends State<loginui> {
 
                                 ],
                               ),
-                            )
+                              
+                            ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 50,right: 50),
+                                child: Row(
+                                  children: [
+
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Expanded(child:
+                                      RaisedButton(
+                                        color:rowone,
+                                        onPressed: () {  },
+                                        child: Row(
+
+                                          children: [
+                                            Padding(
+                                              padding: const EdgeInsets.all(8.0),
+                                              child: Image.asset("img/g.png",width: 25,height: 25,),
+                                            ),
+                                            Text("تسجيل الدخول مع جوجل")
+                                          ],
+                                        ),
+                                      )),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Expanded(child:
+                                      RaisedButton(
+                                        color:sh,
+                                        onPressed: () {  },
+                                        child: Row(
+
+                                          children: [
+                                            Padding(
+                                              padding: const EdgeInsets.all(8.0),
+                                              child: Image.asset("img/f.png",width: 25,height: 25,),
+                                            ),
+                                            Text("تسجيل الدخول مع فيسبوك")
+                                          ],
+                                        ),
+                                      )),
+                                    ),
+
+                                  ],
+                                ),
+                              ),
+
 
                           ],
                         ),

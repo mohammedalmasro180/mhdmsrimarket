@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:mobithice/Page/HomeScreen.dart';
+import 'package:mobithice/Page/loginpage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:mobithice/Page/Catogery.dart';
@@ -15,13 +17,13 @@ class _drwaerState extends State<drawer> {
   getperf() async{
     SharedPreferences preferences=await SharedPreferences.getInstance();
     username=   preferences.getString("username");
-      if(username!= null){
-        setState(() {
-          username=   preferences.getString("username");
-          sign=true;
-          print(username);
-        });
-      }
+    if(username!= null){
+      setState(() {
+        username=   preferences.getString("username");
+        sign=true;
+        print(username);
+      });
+    }
 
 
   }
@@ -39,7 +41,7 @@ class _drwaerState extends State<drawer> {
       child: ListView(
         children: [
           UserAccountsDrawerHeader(
-            accountEmail:Text(username),
+            accountEmail:sign? Text(username):Text("USER"),
             accountName: Text("tpowep"),
             currentAccountPicture: CircleAvatar(child: Icon(Icons.perm_contact_cal),),
             decoration: BoxDecoration(
@@ -75,6 +77,39 @@ class _drwaerState extends State<drawer> {
 
             leading: Icon(Icons.settings),
           ),
+if (sign) InkWell(
+  child:   ListTile(
+    title: Text("تسجيل الخروج"),
+
+    leading: Icon(Icons.login),
+  ),
+onTap: () async{
+  SharedPreferences preferences=await SharedPreferences.getInstance();
+  preferences.remove("username");
+  sign=false;
+  Navigator.pushReplacement(
+      context, MaterialPageRoute(builder: (context) => HomeScreen()));
+
+},
+)
+
+else InkWell(
+  child:   ListTile(
+
+    title: Text("تسجيل الدخول"),
+
+
+
+    leading: Icon(Icons.login),
+
+  ),
+  onTap: (){
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => loginui()));
+
+  },
+)
+          ,
 
 
 
